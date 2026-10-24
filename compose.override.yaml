@@ -1,0 +1,10 @@
+services:
+  ###> doctrine/doctrine-bundle ###
+  db:
+    ports:
+      - "3306"
+
+  mongo:
+    ports:
+      - "27017"
+###< doctrine/doctrine-bundle ###

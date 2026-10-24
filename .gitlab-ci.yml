@@ -1,0 +1,23 @@
+stages:
+  - check
+syntax-check:
+  stage: check
+  image: php:8.2-cli
+  before_script:
+    - apt-get update && apt-get install -y curl unzip autoconf gcc make pkg-config libzip-dev libonig-dev libcurl4-openssl-dev
+    - pecl install mongodb
+    - docker-php-ext-enable mongodb
+  script:
+    - find . -name "*.php" -exec php -l {} \;
+
+composer-security-check:
+  stage: check
+  image: php:8.2-cli
+  before_script:
+    - apt-get update && apt-get install -y curl unzip autoconf gcc make pkg-config libzip-dev libonig-dev libcurl4-openssl-dev
+    - pecl install mongodb
+    - docker-php-ext-enable mongodb
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  script:
+    - composer install
+    - composer audit
